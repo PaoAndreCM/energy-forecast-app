@@ -34,3 +34,41 @@ grid-load-forecast/
 1. Create folder structure + move best checkpoint (rename when moving)
 2. Adapt DEMO to `predict.py`
 3. Build a skeleton Streamlit app that calls `predict.py` and displays something.
+
+## 2026-03-17
+- Created folder structure:
+```
+grid-load-forecast/
+├── data/
+│   └── SMARD_converted.csv
+├── models/
+│   └── best_checkpoint.pth
+├── src/
+│   ├── layers/ 
+│   ├── utils/
+│   ├── data.py
+│   ├── dataset.py
+│   ├── evaluate.py
+│   ├── model.py
+│   ├── predict.py
+│   └── train.py
+├── app.py
+├── config.py
+├── requirements.txt
+├── DEVLOG.md
+└── README.md
+```
+- Transferred class `Dataset_SMARD`  to `dataset.py`
+- Figured out:
+    - `predict.py` must contain only what needs to happen every time the user requests a prediction:
+    - only predict (takes in prepared input which `data.py` has prepared)
+    - `data.py` will contain the input fetching from SMARD API and preparation for prediction. Will serve the app
+    - `model.py` will load and initialize the model
+    - `app.py` will handle user interaction, and will call the previous three.
+    - `dataset.py` will serve the training pipeline.
+- Learned that the scaler can be saved as a `pkl`. It should live in my `models/` directoy.
+- Blocked by Clara's BD party.
+- Next:
+1. Work on `data.py` first, for input fetching and preparation... save the scaler 
+2. Work on `model.py`
+3. Work on `predict.py`
