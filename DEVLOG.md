@@ -72,3 +72,20 @@ grid-load-forecast/
 1. Work on `data.py` first, for input fetching and preparation... save the scaler 
 2. Work on `model.py`
 3. Work on `predict.py`
+
+## 2026-03-22
+- Decided that code for data input and prep in my thesis jupiter notebook (located in the DEMO section) needs to be split into:
+    - `fetch_available_timestamps` (to fetch from the SMARD API the available timestamps from which consumption can be retrieved) IMPLEMENTED
+    - `fetch_consumption` (to retrieve actual consumption) IMPLEMENTED
+    - `needs_stitching` (some input might need retrieval of consumption from two timestamps -each timestamp retrieves a week worth's of data) TODO
+    - `add_time_features` (to ensure input is multivariate as expected by the model) TODO
+- Learned better function naming convention (`fetch_` vs `get_`, name what it returns, not how it works, boolean functions start with `is_`, `needs_`, etc (they read like a question)). 
+Reinforced knowledge on `requests`, `time`, and `bisect_left`
+- Miniblocked by script not running from the "play" button on VSCode as it didn't find the `requests` module. Ran it via the terminal instead. Worked. Happy about owning my code!
+- Next:
+1. Implement `needs_stitching` and `add_time_features` 
+2. Save the scaler (also needs to be done in `data.py`)
+3. Work on `model.py`
+4. Work on `predict.py`
+
+
