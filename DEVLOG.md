@@ -88,4 +88,14 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 3. Work on `model.py`
 4. Work on `predict.py`
 
+## 2026-03-25
+- Started writing `config.py` 
+- Rethought logic on input fetching, refactored `fetch_consumption` into `fetch_week_consumption`, started functions to execute rest of input fetching logic.
+- Learned docstrings standards/best practices
+- Next:
+1. Finish implementing input fetching logic: `get_input`, `needs_stitching` and `calculate_input_start_timestamp`
+2. Save the scaler.
+3. Work on `model.py`
+4. Work on `predict.py`
+
 
