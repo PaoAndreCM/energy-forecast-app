@@ -98,4 +98,14 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 3. Work on `model.py`
 4. Work on `predict.py`
 
-
+# 2026-03-26
+- Decided to get rid of `needs_stitching`.. the evaluation can easily be done by `monday_ts != input_start` in `get_input()`. If `monday_ts != input_start` -> needs stitching.
+- Implemented `calculate_input_start_timestamp`
+- Reimplemented `calculate_start_of_week` to ensure it depends on available timestsamps and not calculations (GMT vs GMT+1 timezones make the calculation unreliable)
+- Moved `config.py` to `src/`
+- Reinforced list concatenation with opperator + and list slicing.
+- Blocked for a while debugging.. especially because the python interpreter for the debugger wasn't correctly selected. Next time, just cmd + shift + P >Python:select interpreter will do the trick.
+- Next:
+1. Save the scaler.
+2. Work on `model.py`
+3. Work on `predict.py`

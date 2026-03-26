@@ -1,7 +1,9 @@
 import requests
 import time
 from bisect import bisect_left
-from config import SEQ_LEN, PRED_LEN, OFFSET, SMARD_BASE_URL
+from config import SEQ_LEN, PRED_LEN, OFFSET,OFFSET_HOURS, SMARD_BASE_URL
+
+WEEK_ms = 7 * 24 * 60 * 60 * 1000 # milliseconds in week
 
 def fetch_available_timestamps():
     """Fetch available timestamps. The available timestamps correspond to the beginning of each week.
@@ -36,17 +38,19 @@ def calculate_start_of_week(timestamp):
     Args: 
         timestamp (int): Unix timestamp in ms"""
     
-    # convert to s
-    timestamp_s = timestamp / 1000
+    available = fetch_available_timestamps()
 
-    # get time struct
-    t = time.gmtime(timestamp_s)
+    index = bisect_left(available, timestamp)
 
-    # calculate Monday
-    monday_s = timestamp_s - (t.tm_wday * 24 * 3600) - (t.tm_hour * 3600) - (t.tm_min * 60) - t.tm_sec
-    monday_ts = monday_s * 1000
+    if available[index] != timestamp:
+        if index != 0:
+            index -= 1
+        else:
+            # TODO handle this error properly
+            print("start of week not available as fetchable timestamp")
+
+    monday_ts = available[index]
     return monday_ts
-
 
 def get_input(timestamp):
     """Take desired forecast timestamp and return input needed for model to generate forecast"""
@@ -55,29 +59,31 @@ def get_input(timestamp):
     monday_ts = calculate_start_of_week(input_start)
     input = fetch_week_consumption(monday_ts)
 
-    stitch_needed = needs_stitching(input_start)
+    if monday_ts != input_start:
+        next_monday_ts = monday_ts + WEEK_ms
+        input = input + fetch_week_consumption(next_monday_ts)
 
-    #TODO calculate prev_mon_timestamp, obtain actual input from input + input2
-
-    prev_mon_timestamp = 0
-    if stitch_needed:
-        input_2 = fetch_week_consumption(prev_mon_timestamp)
-
+        for i, pair in enumerate(input):
+            if pair[0] >= input_start:
+                start_index = i
+                break
+        
+        input = input[start_index:start_index+SEQ_LEN]
     return input
 
-def needs_stitching(timestamp):
-    """Returns True if the input for the requested timestamp must come from two different weeks."""
-    # TODO implement
-    return True
-
 def calculate_input_start_timestamp(timestamp):
-    # TODO implement
-    
-    return 0
+    # input starts at timestamp - offset in ms - week in ms
+    input_start = timestamp - (OFFSET_HOURS*60*60*1000) - WEEK_ms
+    return input_start
 
 
 # Test
 if __name__ == "__main__":
-    test_timestamp = 1710800000000
+    test_timestamp = 1741682931691
     result = get_input(test_timestamp)
+    readable = time.strftime( '%Y-%m-%d %H:%M:%S' ,time.gmtime(test_timestamp/1000))
     print(f"Got {len(result)} data points")
+    print(readable)
+    print(result[0])
+    readable = time.strftime( '%Y-%m-%d %H:%M:%S' ,time.gmtime(result[671][0]/1000))
+    print(readable)

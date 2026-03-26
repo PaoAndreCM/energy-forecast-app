@@ -4,6 +4,7 @@
 SEQ_LEN = 672  # Input length (7 days at 15-min intervals)
 PRED_LEN = 96  # Output length (24 hours at 15-min intervals)
 OFFSET = 56  # Gap between input end and prediction start (14 hours at 15-min intervals)
+OFFSET_HOURS = 14
 
 # Model hyperparameters (needed for loading model)
 ENC_IN = 1
