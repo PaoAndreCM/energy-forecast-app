@@ -109,3 +109,16 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 1. Save the scaler.
 2. Work on `model.py`
 3. Work on `predict.py`
+
+# 2026-03-27
+- Remembered to implement `add_time_features()`
+- Refactored `get_input()` for dedicated `stitch_consumption()` function
+
+# 2026-03-30
+- Implemented `add_time_features()`
+- Decided to use holidays module instead of calling `feiertage` API for inference, to avoid introducing unwanted latency.
+- Completed Lesson 5 (minimal Pandas/NumPy) and Lesson 6 (list comprehensions with conditionals) using Language Teacher Method
+- Next:
+1. Save the scaler.
+2. Work on `model.py`
+3. Work on `predict.py`
