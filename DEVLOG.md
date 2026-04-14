@@ -117,8 +117,21 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 # 2026-03-30
 - Implemented `add_time_features()`
 - Decided to use holidays module instead of calling `feiertage` API for inference, to avoid introducing unwanted latency.
-- Completed Lesson 5 (minimal Pandas/NumPy) and Lesson 6 (list comprehensions with conditionals) using Language Teacher Method
+- Completed Lesson 5 (minimal Pandas/NumPy) and Lesson 6 (list comprehensions with conditionals) using Language Teacher Method (LTM)
 - Next:
 1. Save the scaler.
 2. Work on `model.py`
 3. Work on `predict.py`
+
+# 2026-04-13
+- Saved the scaler from the model trained for the thesis into `models\scaler.pkl`
+
+# 2026-04-14
+- Added `get_configs()` to `config.py`
+- Added `PatchTST.py`to `src/` from thesis project (adapted from PatchTST paper)
+- Wrote `model.py`: creates configs, selects device, sets up PatchTST architecture, loads weights from path and onto model, sends model to device, sets model to evaluation mode.
+- Completed Lesson 7 (Model) using LTM
+- Next:
+1. Work on `predict.py`
+2. Work on `app.py`
+3. Figure out how to host model online instead of locally to serve app online
