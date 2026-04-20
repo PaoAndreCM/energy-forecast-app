@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 import holidays
 from datetime import timedelta
+import pickle
+import torch
 
 
 
@@ -16,6 +18,30 @@ from datetime import timedelta
 # )
 
 WEEK_ms = 7 * 24 * 60 * 60 * 1000 # milliseconds in week
+
+def prepare_model_input(df):
+    # Load scaler
+    with open('models/scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
+
+    # Select feature columns (everything except 'timestamp' and 'date')
+    df_features = df.drop(columns=['timestamp', 'date'])
+
+    # reorder columns so consumption is last column (model expects it last)
+    cols = [c for c in df_features.columns if c != 'consumption'] + ['consumption']
+    df_features = df_features[cols]
+
+    # Convert to numpy: values
+    values = df_features.values
+
+    # Scale
+    scaled = scaler.transform(values)
+
+    # Tensorize and unsqueeze
+    tensor = torch.FloatTensor(scaled)
+    tensor = tensor.unsqueeze(0)
+
+    return tensor
 
 def fetch_available_timestamps():
     """Fetch available timestamps. The available timestamps correspond to the beginning of each week.
@@ -122,31 +148,15 @@ def get_input(timestamp):
     if monday_ts != input_start:
         consumption = stitch_consumption(consumption, monday_ts, input_start)
     
-    model_input = add_time_features(consumption) # TODO get input into exactly the tensor shape that the model expects
+    model_input = add_time_features(consumption)
 
+    model_input_tensor = prepare_model_input(model_input)
 
-    return model_input
+    return model_input_tensor
 
 # Test
 if __name__ == "__main__":
     test_timestamp = 1741682931691
-    result = get_input(test_timestamp)
-    readable = time.strftime( '%Y-%m-%d %H:%M:%S' ,time.gmtime(test_timestamp/1000))
-    print(f"Got {len(result)} data points")
-    print(readable)
-
-    import pandas as pd
-    import numpy as np
-    data = [[1710374400000, 50.5], [1710375300000, 51.2], [1710376200000, 49.8]]
-
-    df = pd.DataFrame(data, columns=['ts','load'])
-    print(df)
-
-    df['datetime'] = pd.to_datetime(df['ts'], unit='ms')
-    print(df)
-
-    ts_seconds = df['ts']/1000
-    print(ts_seconds)
-
-    df['test_sin'] = np.sin(2*np.pi/ts_seconds)
-    print(df)
+    input = get_input(test_timestamp)
+    
+    print(input.shape)

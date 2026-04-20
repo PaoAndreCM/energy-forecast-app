@@ -131,7 +131,18 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 - Added `PatchTST.py`to `src/` from thesis project (adapted from PatchTST paper)
 - Wrote `model.py`: creates configs, selects device, sets up PatchTST architecture, loads weights from path and onto model, sends model to device, sets model to evaluation mode.
 - Completed Lesson 7 (Model) using LTM
+- Started work on `predict.py`
 - Next:
-1. Work on `predict.py`
+1. Finish `predict.py`
+2. Update `data.py`
 2. Work on `app.py`
 3. Figure out how to host model online instead of locally to serve app online
+
+# 2026-04-20
+- Wrote `prepare_model_input()` in `data.py`: loads scaler, drops non-feature columns, reorders so consumption is last, scales all features, converts to tensor with batch dimension
+- Completed Lesson 8 (Scaling and Tensorizing) and Mini-Lesson (Pandas Column Operations) using LTM
+- Finished `get_input()` — now returns model-ready tensor with shape (1, 672, 13)
+- Next:
+1. Finish `predict.py` (load model, run inference, inverse scale predictions)
+2. Work on `app.py`
+3. Figure out deployment to HuggingFace Spaces
