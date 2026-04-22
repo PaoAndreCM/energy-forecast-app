@@ -142,7 +142,12 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 - Wrote `prepare_model_input()` in `data.py`: loads scaler, drops non-feature columns, reorders so consumption is last, scales all features, converts to tensor with batch dimension
 - Completed Lesson 8 (Scaling and Tensorizing) and Mini-Lesson (Pandas Column Operations) using LTM
 - Finished `get_input()` — now returns model-ready tensor with shape (1, 672, 13)
+- Finished `predict.py` (load model, run inference, inverse scale predictions, select only consumption column)
 - Next:
-1. Finish `predict.py` (load model, run inference, inverse scale predictions)
-2. Work on `app.py`
-3. Figure out deployment to HuggingFace Spaces
+1. Work on `app.py`
+2. Figure out deployment to HuggingFace Spaces
+
+# 2026-04-22
+- Built streamlit app in `app.py`
+- Changed device to `cpu` in `model.py` as using `mps` resulted in vastly different and inaccurate predictions.
+- 

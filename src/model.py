@@ -4,7 +4,7 @@ import config
 
 def load_model():
     configs = config.get_configs(name='inference')
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    device = torch.device("cpu") # "cpu" as I attempted to use "mps" but the predictions differed greatly and were vastly inaccurate
     model = Model(configs)
     checkpoint = torch.load("models/best_checkpoint.pth", map_location=device)
     model.load_state_dict(checkpoint)
