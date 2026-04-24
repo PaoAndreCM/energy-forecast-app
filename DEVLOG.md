@@ -150,4 +150,8 @@ Reinforced knowledge on `requests`, `time`, and `bisect_left`
 # 2026-04-22
 - Built streamlit app in `app.py`
 - Changed device to `cpu` in `model.py` as using `mps` resulted in vastly different and inaccurate predictions.
-- 
+- Next:
+1. Change x-axis so it displays time, not pred index
+2. Display error messages when there is not enough data for prediction
+3. Add a caveat: this app is just for demonstration purposes and doesn't guarantee accuracy
+4. Add true consumption when available?
