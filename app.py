@@ -1,6 +1,8 @@
 # app.py
 import sys
 from pathlib import Path
+import altair as alt
+from random import randint
 
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
 import streamlit as st
@@ -9,9 +11,20 @@ import time
 from datetime import datetime, timedelta
 import pandas as pd
 
-# Title
-st.title("Germany Electricity Consumption Forecast")
-st.write("Select a time and a date and click 'Predict' to obtain the day-ahead forecasted energy consumption.")
+st.title("Day-Ahead Germany Electricity Consumption Forecast")
+
+st.write("Select a date and time to get a 24-hour electricity consumption forecast for Germany.")
+
+st.markdown("""
+**How it works:**
+1. Choose your forecast start time below
+2. The model uses 7 days of historical data from SMARD API
+3. Predicts the next 24 hours of grid consumption (96 datapoints at 15-min intervals)
+
+**Model:** PatchTST transformer trained on 2015-2020 German grid data
+
+*Note: Forecasts are limited by real-time data availability (typically up to ~14 hours ahead)*
+""")
 
 
 # Calculate default date
@@ -34,9 +47,19 @@ if st.button("Predict"):
     timestamp = int(time.mktime(d.timetuple()) * 1000)
     # Call predict(timestamp)
     predictions = predict(timestamp)
-    # Display chart
+
+    # Create time labels (96 15-min intervals)
+    times = [d + timedelta(minutes=15*i) for i in range(96)]
+    print("\n" + str(times))
+    
+    # Create DataFrame with formatted time strings
     df = pd.DataFrame({
+        'Time': [t.strftime('%Y/%m/%d %H:%M') for t in times],  # Format as HH:MM
         'Consumption (MWh)': predictions
     })
-    
-    st.line_chart(df, height=400)
+
+    chart = alt.Chart(df).mark_line().encode(
+    alt.X("Time", scale=alt.Scale(type="utc"), sort=None),
+    alt.Y("Consumption (MWh)")
+    )
+    st.altair_chart(chart)
