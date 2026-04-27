@@ -23,7 +23,7 @@ st.markdown("""
 
 **Model:** PatchTST transformer trained on 2015-2020 German grid data
 
-*Note: Forecasts are limited by real-time data availability (typically up to ~14 hours ahead)*
+*Note: Forecasts are limited by real-time data availability (start date/time can typically be set up to ~14 hours ahead)*
 """)
 
 
