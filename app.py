@@ -53,23 +53,24 @@ if st.button("Predict"):
     
     if d > now + timedelta(hours=14):
         change_pop_up(d)
-
-    timestamp = int(time.mktime(d.timetuple()) * 1000)
-    # Call predict(timestamp)
-    predictions = predict(timestamp)
-
-    # Create time labels (96 15-min intervals)
-    times = [d + timedelta(minutes=15*i) for i in range(96)]
-    print("\n" + str(times))
     
-    # Create DataFrame with formatted time strings
-    df = pd.DataFrame({
-        'Time': [t.strftime('%Y/%m/%d %H:%M') for t in times],  # Format as HH:MM
-        'Consumption (MWh)': predictions
-    })
+    else:
+        timestamp = int(time.mktime(d.timetuple()) * 1000)
+        # Call predict(timestamp)
+        predictions = predict(timestamp)
 
-    chart = alt.Chart(df).mark_line().encode(
-    alt.X("Time", scale=alt.Scale(type="utc"), sort=None),
-    alt.Y("Consumption (MWh)")
-    )
-    st.altair_chart(chart)
+        # Create time labels (96 15-min intervals)
+        times = [d + timedelta(minutes=15*i) for i in range(96)]
+        print("\n" + str(times))
+        
+        # Create DataFrame with formatted time strings
+        df = pd.DataFrame({
+            'Time': [t.strftime('%Y/%m/%d %H:%M') for t in times],  # Format as HH:MM
+            'Consumption (MWh)': predictions
+        })
+
+        chart = alt.Chart(df).mark_line().encode(
+        alt.X("Time", scale=alt.Scale(type="utc"), sort=None),
+        alt.Y("Consumption (MWh)")
+        )
+        st.altair_chart(chart)
