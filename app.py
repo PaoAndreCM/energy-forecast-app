@@ -40,10 +40,20 @@ default_time = datetime.strptime("00:00", "%H:%M").time()  # Midnight
 date_i = st.date_input(label="Select start of prediction date", value=default_date)
 time_i = st.time_input(label="Select start of prediction time", value=default_time)
 
+@st.dialog("Change your start date or time")
+def change_pop_up(d):
+    st.write(f"The selected forecast start {d} falls outside the prediction horizon. Please try again with a date/time up to ~14 hours ahead")
+    st.markdown("""
+    *Note: Forecasts are limited by real-time data availability (start date/time can typically be set up to ~14 hours ahead)*
+    """)
 # Button
 if st.button("Predict"):
     # Convert date+time → timestamp
     d = datetime.combine(date_i,time_i)
+    
+    if d > now + timedelta(hours=14):
+        change_pop_up(d)
+
     timestamp = int(time.mktime(d.timetuple()) * 1000)
     # Call predict(timestamp)
     predictions = predict(timestamp)
