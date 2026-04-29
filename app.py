@@ -58,10 +58,11 @@ if st.button("Predict"):
         timestamp = int(time.mktime(d.timetuple()) * 1000)
         # Call predict(timestamp)
         predictions = predict(timestamp)
+        print(predictions)
 
         # Create time labels (96 15-min intervals)
         times = [d + timedelta(minutes=15*i) for i in range(96)]
-        print("\n" + str(times))
+        # print("\n" + str(times))
         
         # Create DataFrame with formatted time strings
         df = pd.DataFrame({

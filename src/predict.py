@@ -28,6 +28,6 @@ def predict(ts):
 
 if __name__ == "__main__":
     test_timestamp = 1741682931691
-    preds = predict(test_timestamp)
-    print(preds)
-    print(f"num preds: {len(preds)}")
+    # preds = predict(test_timestamp)
+    # print(preds)
+    # print(f"num preds: {len(preds)}")

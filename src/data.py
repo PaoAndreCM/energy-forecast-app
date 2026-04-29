@@ -157,6 +157,16 @@ def get_input(timestamp):
 # Test
 if __name__ == "__main__":
     test_timestamp = 1741682931691
-    input = get_input(test_timestamp)
+    # input = get_input(test_timestamp)
     
-    print(input.shape)
+    # print(input.shape)
+
+    # available = fetch_available_timestamps()
+    # print(f"here's the data: {available}")
+    # last = available[len(available)-1]
+    # consumption = fetch_week_consumption(last)
+    # print(f"consumption: {consumption}")
+    # l = [item for item in consumption  if item[1] != "None"]
+    # print( "\n stop: \n")
+    # print(l[-96])
+         
