@@ -7,9 +7,7 @@ sdk: docker
 app_port: 8501
 ---
 
-# Germany Electricity Consumption Forecast
-...rest of your README...
-# Energy Forecast App
+# Germany Electricity Consumption Forecast App
 > Day-ahead electricity consumption forecasting for Germany using PatchTST, with an interactive app to explore predictions and compare against actual grid load.
 
 ## Motivation

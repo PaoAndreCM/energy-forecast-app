@@ -1,0 +1,17 @@
+name: Sync to Hugging Face
+
+on:                                                                                                                                 
+  push:
+    branches: [master]                                                                                                              
+                
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Push to Hugging Face                                                                                                  
+        run: |
+          git remote add hf https://PaoAndreCM:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/PaoAndreCM/energy-forecast-app         
+          git push hf master:main --force         
